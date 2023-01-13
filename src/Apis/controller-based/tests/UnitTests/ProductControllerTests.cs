@@ -1,6 +1,3 @@
-using System;
-using System.Net.Http.Json;
-using Xunit;
 using web.Controllers;
 using Data;
 using UnitTests.ControllerTestData;
@@ -8,7 +5,6 @@ using Moq;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Controller.Tests
 {
