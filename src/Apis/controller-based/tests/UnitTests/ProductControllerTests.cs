@@ -1,6 +1,9 @@
+<<<<<<< HEAD
 using System;
 using System.Net.Http.Json;
 using Xunit;
+=======
+>>>>>>> ad7daf58bdad892f89a4468ce0ba2e0fa18b368a
 using web.Controllers;
 using Data;
 using UnitTests.ControllerTestData;
@@ -8,7 +11,10 @@ using Moq;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+<<<<<<< HEAD
 using Microsoft.AspNetCore.Http.HttpResults;
+=======
+>>>>>>> ad7daf58bdad892f89a4468ce0ba2e0fa18b368a
 
 namespace Controller.Tests
 {

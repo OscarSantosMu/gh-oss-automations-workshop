@@ -14,6 +14,12 @@ mkdir Models
 curl https://raw.githubusercontent.com/MicrosoftDocs/mslearn-staticwebapp-dotnet/main/Data/Product.cs > Models/Product.cs
 cd ..
 dotnet sln add ./Data/Data.csproj
+<<<<<<< HEAD
+=======
+cd Apis/controller-based
+dotnet sln add ../../Data/Data.csproj
+cd ../..
+>>>>>>> ad7daf58bdad892f89a4468ce0ba2e0fa18b368a
 
 :: Create a client blazor wasm project and add a reference to data project.
 dotnet new blazorwasm -f net6.0 -o Client
@@ -50,9 +56,18 @@ dotnet sln add ./Client/Client.csproj
 dotnet new webapi -f net6.0 -o Apis/controller-based/web
 cd Apis/controller-based/web
 move WeatherForecast.cs ../../../Data/Models
+<<<<<<< HEAD
 cd ../../..
 dotnet add Apis/controller-based/web/web.csproj reference Data/Data.csproj
 dotnet sln add ./Apis/controller-based/web/web.csproj
+=======
+cd ..
+dotnet new sln
+dotnet sln add ./web/web.csproj
+cd ../..
+dotnet add Apis/controller-based/web/web.csproj reference Data/Data.csproj
+
+>>>>>>> ad7daf58bdad892f89a4468ce0ba2e0fa18b368a
 
 :: Creates azure function API
 dotnet new classlib -f net6.0 -o Apis/azfunc-based/trigger
@@ -84,6 +99,7 @@ dotnet add Apis/azfunc-based/trigger/trigger.csproj reference Data/Data.csproj
 dotnet sln add ./Apis/azfunc-based/trigger/trigger.csproj
 
 :: Create Unit tests for the Web API.
+<<<<<<< HEAD
 dotnet new xunit -o Apis/controller-based/tests/UnitTests
 cd Apis/controller-based
 dotnet add ./tests/UnitTests/UnitTests.csproj reference ./web/web.csproj
@@ -96,6 +112,23 @@ dotnet sln add ./Apis/controller-based/tests/UnitTests/UnitTests.csproj
 
 :: Create Unit tests for the Azure Functions API.
 dotnet new xunit -o Apis/azfunc-based/tests/UnitTests
+=======
+dotnet new xunit -f net6.0 -o Apis/controller-based/tests/UnitTests
+cd Apis/controller-based
+dotnet add ./tests/UnitTests/UnitTests.csproj reference ./web/web.csproj
+cd tests/UnitTests
+dotnet add package Moq --version 4.18.4
+del UnitTest1.cs
+mkdir ControllerTests
+mkdir TestData
+cd ../..
+dotnet sln add ./tests/UnitTests/UnitTests.csproj
+cd ../..
+
+
+:: Create Unit tests for the Azure Functions API.
+dotnet new xunit -f net6.0 -o Apis/azfunc-based/tests/UnitTests
+>>>>>>> ad7daf58bdad892f89a4468ce0ba2e0fa18b368a
 cd Apis/azfunc-based
 dotnet add ./tests/UnitTests/UnitTests.csproj reference ./trigger/trigger.csproj
 cd tests/UnitTests
@@ -113,11 +146,22 @@ cd ../../../..
 dotnet sln add ./Apis/azfunc-based/tests/UnitTests/UnitTests.csproj
 
 :: Create Integration tests for the Web API.
+<<<<<<< HEAD
 dotnet new xunit -o Apis/controller-based/tests/IntegrationTests
 cd Apis/controller-based
 dotnet add ./tests/IntegrationTests/IntegrationTests.csproj reference ./web/web.csproj
 cd ../..
 dotnet sln add ./Apis/controller-based/tests/IntegrationTests/IntegrationTests.csproj
+=======
+dotnet new xunit -f net6.0 -o Apis/controller-based/tests/IntegrationTests
+cd Apis/controller-based
+cd tests/IntegrationTests
+dotnet add package Moq --version 4.18.4
+cd ../..
+dotnet add ./tests/IntegrationTests/IntegrationTests.csproj reference ./web/web.csproj
+dotnet sln add ./tests/IntegrationTests/IntegrationTests.csproj
+cd ../..
+>>>>>>> ad7daf58bdad892f89a4468ce0ba2e0fa18b368a
 
 mkdir .devcontainer
 cd .devcontainer

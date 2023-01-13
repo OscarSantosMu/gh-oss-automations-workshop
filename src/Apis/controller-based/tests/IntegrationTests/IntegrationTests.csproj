@@ -1,7 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+<<<<<<< HEAD
     <TargetFramework>net7.0</TargetFramework>
+=======
+    <TargetFramework>net6.0</TargetFramework>
+>>>>>>> ad7daf58bdad892f89a4468ce0ba2e0fa18b368a
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 
@@ -10,6 +14,10 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
+<<<<<<< HEAD
+=======
+    <PackageReference Include="Moq" Version="4.18.4" />
+>>>>>>> ad7daf58bdad892f89a4468ce0ba2e0fa18b368a
     <PackageReference Include="xunit" Version="2.4.2" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
