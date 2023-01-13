@@ -30,7 +30,7 @@ public class ProductsDelete
         }
         else
         {
-            return new BadRequestResult();
+            return new NotFoundResult();
         }
     }
 }
