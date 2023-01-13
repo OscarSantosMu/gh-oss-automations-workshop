@@ -7,7 +7,13 @@ on:
   push:
     branches:
       - webapi-deployment
+    paths:
+    - "src/Apis/controller-based/**"
   workflow_dispatch:
+
+defaults:
+  run:
+    working-directory: src/Apis/controller-based
 
 jobs:
   build:
