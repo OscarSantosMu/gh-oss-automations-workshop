@@ -1,0 +1,87 @@
+name: azfunc-ci-building-and-testing
+on:
+  pull_request:
+    branches: ["az-swa-deployment"]
+    paths:
+      - "src/Apis/az-func-based/**"
+  workflow_dispatch:
+
+# Define env variables
+env:
+  WORKDIR: src/
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+defaults:
+  run:
+    working-directory: src/
+
+jobs:
+  building-unit-testing:
+    name: "building-unit-testing"
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dotnet-version: ["6.0.x"]
+    steps:
+      # Checkout
+      - name: "checkout"
+        uses: actions/checkout@v3
+
+      #  Setup .NET Core SDK
+      - name: "Setup .NET Core SDK ${{ matrix.dotnet-version }}"
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+          
+      #  Install dependencies
+      - name: "Install dependencies"
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --no-restore
+
+      - name: Test
+        run: dotnet test --no-build --filter "FullyQualifiedName~UnitTest" --logger "trx;LogFileName=UnitTestResults.trx" --results-directory ./TestResults
+
+      - name: "Test Report"
+        if: success() || failure()
+        uses: dorny/test-reporter@v1
+        with:
+          name: "Trx Tests" # Name of the check run which will be created
+          path: "${{env.WORKDIR}}/TestResults/UnitTestResults.trx" # Path to test results
+          reporter: dotnet-trx
+          list-suites: all
+          list-tests: all
+          max-annotations: 10
+          fail-on-error: "false"
+
+      - name: "create issue"
+        if: failure() && github.event_name != 'pull_request'
+        run: |
+          BODY="### Unit Test *failure*
+            <details>
+            <summary>Workflow details</summary>
+            Workflow name: *${{ github.workflow }}* <br />
+            Action: *${{ github.event_name }}* <br />
+            Job: *${{ github.job }}* <br />
+            </details>
+            Test details: [Run #${{ github.run_id }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) <br />
+            Pusher: @${{ github.actor }}"
+
+          gh issue create --title 'Created issue' --body "${BODY}" --label bug --assignee ${{github.actor}}
+
+      - name: "create pull request comment"
+        if: failure() && github.event_name == 'pull_request'
+        run: |
+          BODY="### Unit Test *failure*
+            <details>
+            <summary>Workflow details</summary>
+            Workflow name: *${{ github.workflow }}* <br />
+            Action: *${{ github.event_name }}* <br />
+            Job: *${{ github.job }}* <br />
+            PR: *#${{ github.event.number }}* <br />
+            </details>
+            Test details: [Run #${{ github.run_id }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) <br />
+            Pusher: @${{ github.actor }}"
+
+          gh pr comment ${{github.event.number}} --body "${BODY}"
