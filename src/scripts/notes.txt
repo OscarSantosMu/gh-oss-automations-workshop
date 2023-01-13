@@ -1,0 +1,12 @@
+Cambiar path de data en trigger.csproj por
+..\..\..\Data\Data.csproj
+
+Cambiar version de trigger.csproj a net7
+
+Añadir staticwebapp.config.json en wwwroot
+{
+  "navigationFallback": {
+    "rewrite": "index.html",
+    "exclude": [ "/_framework/*", "/css/*" ]
+  }
+}
