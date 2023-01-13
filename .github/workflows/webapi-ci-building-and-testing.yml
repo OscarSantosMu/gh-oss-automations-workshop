@@ -3,17 +3,17 @@ on:
   pull_request:
     branches: ["webapi-deployment"]
     paths:
-      - "Apis/controller-based/**"
+      - "src/Apis/controller-based/**"
   workflow_dispatch:
 
 # Define env variables
 env:
-  WORKDIR: Apis/controller-based
+  WORKDIR: src/Apis/controller-based
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 defaults:
   run:
-    working-directory: Apis/controller-based
+    working-directory: src/Apis/controller-based
 
 jobs:
   building-unit-testing:
