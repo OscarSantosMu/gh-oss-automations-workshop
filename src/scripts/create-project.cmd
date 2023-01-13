@@ -14,6 +14,9 @@ mkdir Models
 curl https://raw.githubusercontent.com/MicrosoftDocs/mslearn-staticwebapp-dotnet/main/Data/Product.cs > Models/Product.cs
 cd ..
 dotnet sln add ./Data/Data.csproj
+cd Apis/controller-based
+dotnet sln add ../../Data/Data.csproj
+cd ../..
 
 :: Create a client blazor wasm project and add a reference to data project.
 dotnet new blazorwasm -f net6.0 -o Client
@@ -50,9 +53,12 @@ dotnet sln add ./Client/Client.csproj
 dotnet new webapi -f net6.0 -o Apis/controller-based/web
 cd Apis/controller-based/web
 move WeatherForecast.cs ../../../Data/Models
-cd ../../..
+cd ..
+dotnet new sln
+dotnet sln add ./web/web.csproj
+cd ../..
 dotnet add Apis/controller-based/web/web.csproj reference Data/Data.csproj
-dotnet sln add ./Apis/controller-based/web/web.csproj
+
 
 :: Creates azure function API
 dotnet new classlib -f net6.0 -o Apis/azfunc-based/trigger
@@ -84,18 +90,21 @@ dotnet add Apis/azfunc-based/trigger/trigger.csproj reference Data/Data.csproj
 dotnet sln add ./Apis/azfunc-based/trigger/trigger.csproj
 
 :: Create Unit tests for the Web API.
-dotnet new xunit -o Apis/controller-based/tests/UnitTests
+dotnet new xunit -f net6.0 -o Apis/controller-based/tests/UnitTests
 cd Apis/controller-based
 dotnet add ./tests/UnitTests/UnitTests.csproj reference ./web/web.csproj
 cd tests/UnitTests
+dotnet add package Moq --version 4.18.4
 del UnitTest1.cs
 mkdir ControllerTests
 mkdir TestData
-cd ../../../..
-dotnet sln add ./Apis/controller-based/tests/UnitTests/UnitTests.csproj
+cd ../..
+dotnet sln add ./tests/UnitTests/UnitTests.csproj
+cd ../..
+
 
 :: Create Unit tests for the Azure Functions API.
-dotnet new xunit -o Apis/azfunc-based/tests/UnitTests
+dotnet new xunit -f net6.0 -o Apis/azfunc-based/tests/UnitTests
 cd Apis/azfunc-based
 dotnet add ./tests/UnitTests/UnitTests.csproj reference ./trigger/trigger.csproj
 cd tests/UnitTests
@@ -113,11 +122,14 @@ cd ../../../..
 dotnet sln add ./Apis/azfunc-based/tests/UnitTests/UnitTests.csproj
 
 :: Create Integration tests for the Web API.
-dotnet new xunit -o Apis/controller-based/tests/IntegrationTests
+dotnet new xunit -f net6.0 -o Apis/controller-based/tests/IntegrationTests
 cd Apis/controller-based
-dotnet add ./tests/IntegrationTests/IntegrationTests.csproj reference ./web/web.csproj
+cd tests/IntegrationTests
+dotnet add package Moq --version 4.18.4
 cd ../..
-dotnet sln add ./Apis/controller-based/tests/IntegrationTests/IntegrationTests.csproj
+dotnet add ./tests/IntegrationTests/IntegrationTests.csproj reference ./web/web.csproj
+dotnet sln add ./tests/IntegrationTests/IntegrationTests.csproj
+cd ../..
 
 mkdir .devcontainer
 cd .devcontainer
