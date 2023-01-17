@@ -38,6 +38,13 @@ public class ProductData : IProductData
                 Name = "Apples",
                 Description = "Bag of 7 fresh McIntosh apples",
                 Quantity = 1
+            },
+            new Product
+            {
+                Id = 40,
+                Name = "Oranges",
+                Description = "Bag of 10 fresh oranges",
+                Quantity = 3
             }
         };
 
